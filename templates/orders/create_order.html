@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Buy {{ object.name }}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn">Buy Now</button>
+</form> 
+
+<p>Price: ${{ object.price }}</p>
+<p>Description: {{ object.description }}</p>
+
+{% endblock %}

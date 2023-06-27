@@ -1,0 +1,88 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<style>
+    .profile-container{
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+    }
+    .profile-information{
+        display:flex;
+        justify-content: space-around;
+    }
+    .profile-information img{
+        width:200px;
+        border-radius: 50%;
+    }
+    .profile-details{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        gap:20px;
+    }
+</style>
+<div class="profile-container">
+    <div class="profile-information">
+    {% if user.user_profile.avatar %}
+    <img src="{{ user.user_profile.avatar.url }}" alt="Avatar" class="avatar">
+    {% endif %}
+
+    <p>Name: {{ user.username }}</p>
+
+    {% if user.user_profile.bio %}
+    <p>Bio: {{ user.bio }}</p>
+    {% endif %}
+
+    {% if user.user_profile.location %}
+    <p>Location: {{ user.user_profile.location }}</p>  
+    {% endif %}
+
+</div>
+<div class="profile-details">
+<div class="profile-nav">
+    <a href="#">Personal information</a>
+    <a href="#">My products</a>
+    <a href="#">Payments</a>
+    <a href="#">Settings</a>
+
+</div>
+    {% if user.products.all %}  
+    <h2>Products</h2>
+    <div class="product-list">
+
+    {% for product in user.products.all %}
+    <a href="{% url 'product_detail' product.pk%}" class="product-link">
+        <div class="product-image">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+        </div>
+          <div class="product-details">
+          <h4>{{ product.name }}</h4>
+          <small class="text-muted">{{product.category}}</small>
+        </div>
+        
+        <div class="product-footer">
+          ${{product.price}}
+          <button>Buy</button>
+        </div>
+      </a>
+    {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if user.orders.all %}
+    <h2>Orders</h2>      
+    <ul>
+    {% for order in user.orders.all %}
+    <li>
+        <a href="{% url 'product_detail' order.product.pk %}">
+            {{ order.product.name }}
+        </a>
+        - {{ order.order_status }}
+    </li>
+    {% endfor %}
+    </ul>
+    {% endif %} 
+    </div>
+</div>
+{% endblock %}

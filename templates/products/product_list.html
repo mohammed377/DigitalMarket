@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-list">
+
+{% if object_list %}
+
+  {% for product in object_list %}
+  <a href="{% url 'product_detail' product.pk%}" class="product-link">
+    <div class="product-image">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+    </div>
+      <div class="product-details">
+      <h4>{{ product.name }}</h4>
+      <small class="text-muted">{{product.category}}</small>
+    </div>
+    
+    <div class="product-footer">
+      ${{product.price}}
+      <button>Buy</button>
+    </div>
+  </a>
+
+  {% endfor %}
+ 
+
+  
+{% else %}
+  <p>No products are available.</p>
+{% endif %}
+
+
+</div>
+
+{% endblock %}
+
+<div>
+  <span class="fa fa-star checked"></span>
+  <span class="fa fa-star checked"></span>
+  <span class="fa fa-star checked"></span>
+  <span class="fa fa-star"></span>
+  <span class="fa fa-star"></span>
+</div>
